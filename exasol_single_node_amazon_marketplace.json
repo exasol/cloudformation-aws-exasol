@@ -57,7 +57,8 @@
 						"default": "Data Volume(s) Configuration"
 					},
 					"Parameters": [
-						"DBEBSEncryption"
+						"DBEBSEncryption",
+						"CustomKMSKey"
 					]
 				},
 				{
@@ -122,6 +123,9 @@
                 },
 				"DBEBSEncryption":{
                     "default": "Encrypt EBS volumes"
+				},
+				"CustomKMSKey":{
+                    "default": "Custom KMS Key for storage encryption"
 				}
 			}
 		}
@@ -184,6 +188,11 @@
             "Description": "Encrypt attached EBS volumes",
             "Type": "String"
         },
+		"CustomKMSKey": {
+			"Description": "e.g. abcd1234-a123-456a-a12b-a123b4cd56ef",
+			"Type": "String",
+			"Default": "alias/aws/ebs"
+		},		
 		"DBSystemName": {
             "Default": "exasol",
 			"AllowedPattern": "[a-zA-Z0-9_]{5,20}",
@@ -260,12 +269,13 @@
         }
 	},
     "Mappings":
-	{"regions":{"ap-east-1":{"RegionKey":"apeast1"},"ap-northeast-1":{"RegionKey":"apnortheast1"},"ap-northeast-2":{"RegionKey":"apnortheast2"},"ap-south-1":{"RegionKey":"apsouth1"},"ap-southeast-1":{"RegionKey":"apsoutheast1"},"ap-southeast-2":{"RegionKey":"apsoutheast2"},"ca-central-1":{"RegionKey":"cacentral1"},"eu-central-1":{"RegionKey":"eucentral1"},"eu-west-1":{"RegionKey":"euwest1"},"eu-west-2":{"RegionKey":"euwest2"},"eu-west-3":{"RegionKey":"euwest3"},"me-south-1":{"RegionKey":"mesouth1"},"sa-east-1":{"RegionKey":"saeast1"},"us-east-1":{"RegionKey":"useast1"},"us-east-2":{"RegionKey":"useast2"},"us-west-1":{"RegionKey":"uswest1"},"us-west-2":{"RegionKey":"uswest2"},"eu-north-1":{"RegionKey":"eunorth1"},"eu-south-1":{"RegionKey":"eusouth1"},"af-south-1":{"RegionKey":"afsouth1"}},"apeast1":{"EXASOL-7.0.4-BYOL":{"AMI":""},"EXASOL-7.0.4-PAYG":{"AMI":"ami-0fe6ac8f1a434554f"}},"apnortheast1":{"EXASOL-7.0.4-BYOL":{"AMI":"ami-0f41c379273279b73"},"EXASOL-7.0.4-PAYG":{"AMI":"ami-0e396e2effcbe7c50"}},"apnortheast2":{"EXASOL-7.0.4-BYOL":{"AMI":"ami-01cbcf44b98407da6"},"EXASOL-7.0.4-PAYG":{"AMI":"ami-0c141ea20c7320f43"}},"apsouth1":{"EXASOL-7.0.4-BYOL":{"AMI":"ami-0fedd05e0e4ed9efb"},"EXASOL-7.0.4-PAYG":{"AMI":"ami-065630142463d4637"}},"apsoutheast1":{"EXASOL-7.0.4-BYOL":{"AMI":"ami-0346922c19230ab6e"},"EXASOL-7.0.4-PAYG":{"AMI":"ami-0a8702683a03f4948"}},"apsoutheast2":{"EXASOL-7.0.4-BYOL":{"AMI":"ami-01b0b46c5032bcdde"},"EXASOL-7.0.4-PAYG":{"AMI":"ami-08292dff37a7fed05"}},"cacentral1":{"EXASOL-7.0.4-BYOL":{"AMI":"ami-025553e29e85303da"},"EXASOL-7.0.4-PAYG":{"AMI":"ami-0ce7764bc3ba8ec5d"}},"eucentral1":{"EXASOL-7.0.4-BYOL":{"AMI":"ami-0887c3cfe5f3ef8af"},"EXASOL-7.0.4-PAYG":{"AMI":"ami-010f6aebada0a39b8"}},"euwest1":{"EXASOL-7.0.4-BYOL":{"AMI":"ami-06a3ca6f58c324fc6"},"EXASOL-7.0.4-PAYG":{"AMI":"ami-01f6f08d3bee76b51"}},"euwest2":{"EXASOL-7.0.4-BYOL":{"AMI":"ami-02bbc7b8b4cc25be7"},"EXASOL-7.0.4-PAYG":{"AMI":"ami-0a44efe1bf25e9806"}},"euwest3":{"EXASOL-7.0.4-BYOL":{"AMI":"ami-0956a04135553ca22"},"EXASOL-7.0.4-PAYG":{"AMI":"ami-0cfd79ec23f49bf8f"}},"mesouth1":{"EXASOL-7.0.4-BYOL":{"AMI":""},"EXASOL-7.0.4-PAYG":{"AMI":"ami-096783aa43e8be6f2"}},"saeast1":{"EXASOL-7.0.4-BYOL":{"AMI":"ami-0d6d925b8c64916c9"},"EXASOL-7.0.4-PAYG":{"AMI":"ami-0f54d19824493c39aZ"}},"useast1":{"EXASOL-7.0.4-BYOL":{"AMI":"ami-0570a6da74bc80152"},"EXASOL-7.0.4-PAYG":{"AMI":"ami-04e143db51df28f5f"}},"useast2":{"EXASOL-7.0.4-BYOL":{"AMI":"ami-0880392e454c6a72e"},"EXASOL-7.0.4-PAYG":{"AMI":"ami-08fe3e1063d022fa0"}},"uswest1":{"EXASOL-7.0.4-BYOL":{"AMI":"ami-0876dfaa96e7328c0"},"EXASOL-7.0.4-PAYG":{"AMI":"ami-0873f535b8b78d978"}},"uswest2":{"EXASOL-7.0.4-BYOL":{"AMI":"ami-0d4b6775dab81b49f"},"EXASOL-7.0.4-PAYG":{"AMI":"ami-06916a9aacb723fa0"}},"eunorth1":{"EXASOL-7.0.4-BYOL":{"AMI":"ami-0bcc48bf0f356572b"},"EXASOL-7.0.4-PAYG":{"AMI":"ami-0949ba7ef49932824"}},"eusouth1":{"EXASOL-7.0.4-BYOL":{"AMI":""},"EXASOL-7.0.4-PAYG":{"AMI":"ami-0b84dd5cfac8ecd94"}},"afsouth1":{"EXASOL-7.0.4-BYOL":{"AMI":""},"EXASOL-7.0.4-PAYG":{"AMI":"ami-045ff9bd55c0cc234"}}},
+	{ "regions": { "ap-east-1": { "RegionKey": "apeast1" }, "ap-northeast-1": { "RegionKey": "apnortheast1" }, "ap-northeast-2": { "RegionKey": "apnortheast2" }, "ap-northeast-3": { "RegionKey": "apnortheast3" }, "ap-south-1": { "RegionKey": "apsouth1" }, "ap-southeast-1": { "RegionKey": "apsoutheast1" }, "ap-southeast-2": { "RegionKey": "apsoutheast2" }, "ca-central-1": { "RegionKey": "cacentral1" }, "eu-central-1": { "RegionKey": "eucentral1" }, "eu-west-1": { "RegionKey": "euwest1" }, "eu-west-2": { "RegionKey": "euwest2" }, "eu-west-3": { "RegionKey": "euwest3" }, "me-south-1": { "RegionKey": "mesouth1" }, "sa-east-1": { "RegionKey": "saeast1" }, "us-east-1": { "RegionKey": "useast1" }, "us-east-2": { "RegionKey": "useast2" }, "us-west-1": { "RegionKey": "uswest1" }, "us-west-2": { "RegionKey": "uswest2" }, "eu-north-1": { "RegionKey": "eunorth1" }, "eu-south-1": { "RegionKey": "eusouth1" }, "af-south-1": { "RegionKey": "afsouth1" } }, "apeast1": { "EXASOL-7.0.4-BYOL": { "AMI": "" }, "EXASOL-7.0.4-PAYG": { "AMI": "ami-008a1e74938dabab6" } }, "apnortheast1": { "EXASOL-7.0.4-BYOL": { "AMI": "ami-008e6bdc0a6a7ed6d" }, "EXASOL-7.0.4-PAYG": { "AMI": "ami-0ec92c3c7a6e2eb2c" } }, "apnortheast2": { "EXASOL-7.0.4-BYOL": { "AMI": "ami-059fcf526c26c31f0" }, "EXASOL-7.0.4-PAYG": { "AMI": "ami-0f28a6bc9d1d55602" } }, "apnortheast3": { "EXASOL-7.0.4-BYOL": { "AMI": "" }, "EXASOL-7.0.4-PAYG": { "AMI": "ami-0b52fff72b15ff642" } }, "apsouth1": { "EXASOL-7.0.4-BYOL": { "AMI": "ami-059cc7002ebdbabcc" }, "EXASOL-7.0.4-PAYG": { "AMI": "ami-01dadd193183ee93d" } }, "apsoutheast1": { "EXASOL-7.0.4-BYOL": { "AMI": "ami-0c7b254dafd92666c" }, "EXASOL-7.0.4-PAYG": { "AMI": "ami-0c2af38bc5af8a647" } }, "apsoutheast2": { "EXASOL-7.0.4-BYOL": { "AMI": "ami-0ddf0dbdfb187289d" }, "EXASOL-7.0.4-PAYG": { "AMI": "ami-091f277e8c5655af8" } }, "cacentral1": { "EXASOL-7.0.4-BYOL": { "AMI": "ami-0f8d3faf4e6273fdb" }, "EXASOL-7.0.4-PAYG": { "AMI": "ami-04f226a50e8f80dbc" } }, "eucentral1": { "EXASOL-7.0.4-BYOL": { "AMI": "ami-010d90683bfe64b1f" }, "EXASOL-7.0.4-PAYG": { "AMI": "ami-0c1ca6305fcc0a4b8" } }, "euwest1": { "EXASOL-7.0.4-BYOL": { "AMI": "ami-03a097a779fb8e210" }, "EXASOL-7.0.4-PAYG": { "AMI": "ami-021f6e041dd137bb6" } }, "euwest2": { "EXASOL-7.0.4-BYOL": { "AMI": "ami-04840f43eb7fdc2be" }, "EXASOL-7.0.4-PAYG": { "AMI": "ami-06d33819a729c07db" } }, "euwest3": { "EXASOL-7.0.4-BYOL": { "AMI": "ami-059fad838dffffd51" }, "EXASOL-7.0.4-PAYG": { "AMI": "ami-02ffa6716b5185737" } }, "mesouth1": { "EXASOL-7.0.4-BYOL": { "AMI": "" }, "EXASOL-7.0.4-PAYG": { "AMI": "ami-0a885f5a1537200a9" } }, "saeast1": { "EXASOL-7.0.4-BYOL": { "AMI": "ami-03633dbc5ab468022" }, "EXASOL-7.0.4-PAYG": { "AMI": "ami-07543bfc6026c9377" } }, "useast1": { "EXASOL-7.0.4-BYOL": { "AMI": "ami-0569a8a115dbf1dd3" }, "EXASOL-7.0.4-PAYG": { "AMI": "ami-0f1093bf66535a6df" } }, "useast2": { "EXASOL-7.0.4-BYOL": { "AMI": "ami-03ac6aebcb873d276" }, "EXASOL-7.0.4-PAYG": { "AMI": "ami-07d514fc38e394491" } }, "uswest1": { "EXASOL-7.0.4-BYOL": { "AMI": "ami-022af24ee5bc30a9e" }, "EXASOL-7.0.4-PAYG": { "AMI": "ami-071d1ba364d7a6d17" } }, "uswest2": { "EXASOL-7.0.4-BYOL": { "AMI": "ami-07f1d515035c449a0" }, "EXASOL-7.0.4-PAYG": { "AMI": "ami-00240808fac0cc1ee" } }, "eunorth1": { "EXASOL-7.0.4-BYOL": { "AMI": "ami-024749c74fc5bf849" }, "EXASOL-7.0.4-PAYG": { "AMI": "ami-05e66ac2f1fa2e79d" } }, "eusouth1": { "EXASOL-7.0.4-BYOL": { "AMI": "" }, "EXASOL-7.0.4-PAYG": { "AMI": "ami-014c542ed3b933b8f" } }, "afsouth1": { "EXASOL-7.0.4-BYOL": { "AMI": "" }, "EXASOL-7.0.4-PAYG": { "AMI": "ami-0e91e6e0d2bcc3449" } } },
     "Conditions" : {
 		"CreateEndpoints" : {"Fn::Equals" : [{"Ref": "PublicIP"}, "false"]},
 		"CreateS3Endpoint": {"Fn::Equals" : [{"Ref": "CreateS3Endpoint"}, "true"]},
 		"CreateKMSEndpoint": {"Fn::Equals" : [{"Ref": "CreateKMSEndpoint"}, "true"]},
 		"PublicIP" : {"Fn::Equals" : [{"Ref": "PublicIP"}, "true"]},
+		"CustomKMSKeyNotSet" : {"Fn::Equals" : [{"Ref": "CustomKMSKey"}, ""]},
 		"CreateS3Bucket" : {"Fn::Equals" : [{"Ref": "CreateS3Bucket"}, "true"]}
     },
 	"Resources": {	
@@ -701,6 +711,7 @@
 								"delete e.ResourceProperties.ServiceToken;",
 
 								"e.ResourceProperties.InstanceType='", {"Ref": "DatabaseNodeInstanceType"},"'.split('--')[0];",
+								"e.ResourceProperties.BlockDeviceMappings.push({DeviceName:'/dev/sda1','Ebs':{Encrypted:",{"Ref":"DBEBSEncryption"},",VolumeType:'gp2',KmsKeyId:'",{"Ref":"CustomKMSKey"},"'}});",
 
 								"let instanceLabel = '", {"Ref": "DatabaseNodeInstanceType"},"';",
 								"let storageCapacity = (instanceLabel.includes('GB--') ? parseInt(instanceLabel.split('--')[1].split('GB')[0]) : parseInt(instanceLabel.split('--')[1].split('TB')[0]*1000));",
@@ -708,9 +719,15 @@
 								"let blockDeviceSize = storageCapacity/blockDeviceCount;",
 
                                 "for (let i=1; i <= blockDeviceCount; i++) {",
-									"e.ResourceProperties.BlockDeviceMappings.push({'DeviceName': '/dev/xvd'+String.fromCharCode(i+97), 'Ebs': { 'Encrypted': ", { "Ref": "DBEBSEncryption" },", 'VolumeSize': blockDeviceSize, 'VolumeType': 'gp2'}});",
+									"e.ResourceProperties.BlockDeviceMappings.push({'DeviceName': '/dev/xvd'+String.fromCharCode(i+97), 'Ebs': { 'Encrypted': ", { "Ref": "DBEBSEncryption" },", 'VolumeSize': blockDeviceSize, 'VolumeType': 'gp2', 'KmsKeyId': '", {"Ref":"CustomKMSKey"}, "'}});",
 								"}",
 
+
+								"if (!",{"Ref":"DBEBSEncryption"},"){",
+									"for (let i=0; i <= blockDeviceCount; i++) {",
+										"delete e.ResourceProperties.BlockDeviceMappings[i].Ebs.KmsKeyId;",
+									"}",
+								"}",
 
                                 "if (e.RequestType == 'Create') {",
 
@@ -853,11 +870,20 @@
 				],
 				"BucketEncryption": {
 					"ServerSideEncryptionConfiguration": [
+						{ "Fn::If" : [ "CustomKMSKeyNotSet", 
 						{
 						"ServerSideEncryptionByDefault": {
-						"SSEAlgorithm": "AES256"
+							"SSEAlgorithm": "AES256"
+							}
+						},
+						{
+						"ServerSideEncryptionByDefault": {
+							"SSEAlgorithm": "aws:kms",
+							"KMSMasterKeyID": {"Ref":"CustomKMSKey"}
+							}
 						}
-					}]
+					]}
+					]
 				}					
             }
         },
