@@ -1291,19 +1291,11 @@
 				],
 				"BucketEncryption": {
 					"ServerSideEncryptionConfiguration": [
-						{ "Fn::If" : [ "CustomKMSKeyNotSet", 
 						{
 						"ServerSideEncryptionByDefault": {
 							"SSEAlgorithm": "AES256"
 							}
-						},
-						{
-						"ServerSideEncryptionByDefault": {
-							"SSEAlgorithm": "aws:kms",
-							"KMSMasterKeyID": {"Ref":"CustomKMSKey"}
-							}
 						}
-					]}
 					]
 				}					
             }
