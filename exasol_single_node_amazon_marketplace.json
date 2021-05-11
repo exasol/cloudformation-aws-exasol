@@ -191,7 +191,8 @@
 		"CustomKMSKey": {
 			"Description": "e.g. abcd1234-a123-456a-a12b-a123b4cd56ef",
 			"Type": "String",
-			"Default": "alias/aws/ebs"
+			"Default": "alias/aws/ebs",
+			"MinLength": "1"
 		},		
 		"DBSystemName": {
             "Default": "exasol",
@@ -496,6 +497,20 @@
                                 { "Fn::Join": ["", ["arn:aws:ec2:", { "Ref" : "AWS::Region" },":", { "Ref" : "AWS::AccountId" },":security-group/", {"Ref": "DBSecurityGroup"}]]},
 								{ "Fn::Join": ["", ["arn:aws:cloudformation:", { "Ref" : "AWS::Region" },":", { "Ref" : "AWS::AccountId" },":stack/", {"Ref": "AWS::StackName"}, "/*"]]}
                             ]
+						},
+						{
+                            "Effect":"Allow",
+							"Action": [
+								"kms:Decrypt",
+								"kms:Encrypt",
+								"kms:RevokeGrant",
+								"kms:GenerateDataKey",
+								"kms:GenerateDataKeyWithoutPlaintext",
+								"kms:DescribeKey",
+								"kms:CreateGrant",
+								"kms:ListGrants"
+							],
+							"Resource": [{ "Fn::Join": ["", ["arn:aws:kms:",{"Ref":"AWS::Region"},":", { "Ref" : "AWS::AccountId" },":key/", { "Ref": "CustomKMSKey" }]]}]
 						},
                         {
                             "Effect":"Allow",
